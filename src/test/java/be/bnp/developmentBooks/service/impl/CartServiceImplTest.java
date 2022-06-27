@@ -8,14 +8,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class BasketServiceImplTest {
+class CartServiceImplTest {
 
     @Autowired
-    BasketServiceImpl basketService;
+    CartServiceImpl cartService;
 
     @Test
     void whenFindBookByIdWithExistingIdThenReturnTheBook() throws Exception {
-        Book book = basketService.findBookById(1L);
+        Book book = cartService.findBookById(1L);
         assertEquals(1L, book.getId());
         assertEquals("Clean Code (Robert Martin, 2008)", book.getName());
     }
@@ -23,7 +23,7 @@ class BasketServiceImplTest {
     @Test
     void whenFindBookByIdWithNoExistingIdThenReturnTheBook() {
         try {
-            Book book = basketService.findBookById(7L);
+            Book book = cartService.findBookById(7L);
         } catch (Exception e) {
             assertEquals("book with id: 7 not exist",e.getMessage());
         }

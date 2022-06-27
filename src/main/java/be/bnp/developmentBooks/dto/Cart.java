@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.HashMap;
 
 @Data
-public class Basket {
+public class Cart {
 
     long totalPrice;
     // book with quantity

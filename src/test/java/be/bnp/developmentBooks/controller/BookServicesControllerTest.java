@@ -25,11 +25,11 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenAddToBasketNewBookThenQuantityMustBeOne() throws Exception {
-        HashMap<Book, Integer> listBook = bookServicesController.getBasket().getListBooks();
-        bookServicesController.addToBasket(1L);
+    void whenAddToCartNewBookThenQuantityMustBeOne() throws Exception {
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
+        bookServicesController.addToCart(1L);
         assertEquals(1, listBook.entrySet().size());
-        bookServicesController.addToBasket(2L);
+        bookServicesController.addToCart(2L);
         assertEquals(2, listBook.entrySet().size());
         for (Book book : listBook.keySet()) {
             int quantity = listBook.get(book);
@@ -38,15 +38,15 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenAddToBasketManyBooksThenQuantityMustCalculate() throws Exception {
-        HashMap<Book, Integer> listBook = bookServicesController.getBasket().getListBooks();
-        bookServicesController.addToBasket(1L);
+    void whenAddToCartManyBooksThenQuantityMustCalculate() throws Exception {
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
+        bookServicesController.addToCart(1L);
         assertEquals(1, listBook.entrySet().size());
-        bookServicesController.addToBasket(1L);
+        bookServicesController.addToCart(1L);
         assertEquals(1, listBook.entrySet().size());
-        bookServicesController.addToBasket(1L);
+        bookServicesController.addToCart(1L);
         assertEquals(1, listBook.entrySet().size());
-        bookServicesController.addToBasket(2L);
+        bookServicesController.addToCart(2L);
         assertEquals(2, listBook.entrySet().size());
         for (Book book : listBook.keySet()) {
             int quantity = listBook.get(book);
@@ -58,5 +58,34 @@ class BookServicesControllerTest {
         }
     }
 
+    @Test
+    void whenDecreaseFromCartAndQuantityBecomeZeroThenBookIsDelete() throws Exception {
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
+        bookServicesController.addToCart(1L);
+        assertEquals(1, listBook.entrySet().size());
+        bookServicesController.decreaseFromCart(1L);
+        assertEquals(0, listBook.entrySet().size());
+    }
+
+    @Test
+    void whenDecreaseFromCartManyBooksThenQuantityMustCalculate() throws Exception {
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
+        bookServicesController.addToCart(1L);
+        assertEquals(1, listBook.entrySet().size());
+        bookServicesController.addToCart(1L);
+        assertEquals(1, listBook.entrySet().size());
+        bookServicesController.addToCart(1L);
+        assertEquals(1, listBook.entrySet().size());
+        bookServicesController.addToCart(2L);
+        assertEquals(2, listBook.entrySet().size());
+        bookServicesController.decreaseFromCart(1L);
+        assertEquals(2, listBook.entrySet().size());
+        bookServicesController.decreaseFromCart(2L);
+        assertEquals(1, listBook.entrySet().size());
+        for (Book book : listBook.keySet()) {
+            int quantity = listBook.get(book);
+            assertEquals(2, quantity);
+        }
+    }
 
 }

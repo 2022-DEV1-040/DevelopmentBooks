@@ -1,7 +1,7 @@
 package be.bnp.developmentBooks.controller;
 
-import be.bnp.developmentBooks.dto.Basket;
-import be.bnp.developmentBooks.service.BasketService;
+import be.bnp.developmentBooks.dto.Cart;
+import be.bnp.developmentBooks.service.CartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class BookServicesController {
     private static final Logger logger = LoggerFactory.getLogger(BookServicesController.class);
 
     @Autowired
-    BasketService basketService;
+    CartService cartService;
 
     @GetMapping(value = "/ping")
     public ResponseEntity<String> ping() {
@@ -28,15 +28,21 @@ public class BookServicesController {
         return new ResponseEntity<String>("Réponse du serveur: "+ HttpStatus.OK.name(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/addToBasket/{id}")
-    public String addToBasket(@PathVariable long id) throws Exception {
-        basketService.add(id);
-        return "Book with id " + id + " added to basket ";
+    @GetMapping(value = "/addToCart/{id}")
+    public String addToCart(@PathVariable long id) throws Exception {
+        cartService.add(id);
+        return "Book with id " + id + " added to cart ";
     }
 
-    @GetMapping(value = "/showBasket")
-    public String showBasket() throws Exception {
-        return basketService.displayBasket();
+    @GetMapping(value = "/decreaseFromCart/{id}")
+    public String decreaseFromCart(@PathVariable long id) throws Exception {
+        cartService.decrease(id);
+        return "Book with id " + id + " decreased from cart ";
+    }
+
+    @GetMapping(value = "/showCart")
+    public String showCart() throws Exception {
+        return cartService.displayCart();
     }
 
     @ExceptionHandler(Exception.class)
@@ -46,7 +52,7 @@ public class BookServicesController {
         return ex.getMessage();
     }
 
-    public Basket getBasket() {
-        return basketService.getBasket();
+    public Cart getCart() {
+        return cartService.getCart();
     }
 }

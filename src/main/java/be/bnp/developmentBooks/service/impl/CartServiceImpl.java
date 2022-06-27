@@ -1,11 +1,10 @@
 package be.bnp.developmentBooks.service.impl;
 
 
-import be.bnp.developmentBooks.dto.Basket;
+import be.bnp.developmentBooks.dto.Cart;
 import be.bnp.developmentBooks.entity.Book;
 import be.bnp.developmentBooks.repository.BookRepository;
-import be.bnp.developmentBooks.service.BasketService;
-import com.fasterxml.jackson.databind.util.TypeKey;
+import be.bnp.developmentBooks.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,28 +12,42 @@ import java.util.HashMap;
 import java.util.Optional;
 
 @Service
-public class BasketServiceImpl implements BasketService {
+public class CartServiceImpl implements CartService {
 
     @Autowired
     private BookRepository bookRepository;
 
-    private Basket basket = new Basket();
+    private Cart cart = new Cart();
 
     @Override
     public void add(long id) throws Exception {
         Book book = findBookById(id);
-        Integer quantity = basket.getListBooks().get(book);
+        Integer quantity = cart.getListBooks().get(book);
         if (quantity != null) {
             quantity++;
         } else {
             quantity = 1;
         }
-        basket.getListBooks().put(book, quantity);
+        cart.getListBooks().put(book, quantity);
     }
 
     @Override
-    public String displayBasket() {
-        HashMap<Book, Integer> listBook = basket.getListBooks();
+    public void decrease(long id) throws Exception {
+        Book book = findBookById(id);
+        Integer quantity = cart.getListBooks().get(book);
+        if (quantity != null && quantity != 0) {
+            quantity--;
+        }
+        if (quantity == 0) {
+            cart.getListBooks().remove(book);
+        } else {
+            cart.getListBooks().put(book, quantity);
+        }
+    }
+
+    @Override
+    public String displayCart() {
+        HashMap<Book, Integer> listBook = cart.getListBooks();
         if (listBook.keySet().size() > 0) {
             StringBuilder content = new StringBuilder();
             for (Book book : listBook.keySet()) {
@@ -44,7 +57,7 @@ public class BasketServiceImpl implements BasketService {
             }
             return content.toString();
         } else {
-            return "basket is empty";
+            return "cart is empty";
         }
     }
 
@@ -58,11 +71,11 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public Basket getBasket() {
-        return basket;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setBasket(Basket basket) {
-        this.basket = basket;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }
