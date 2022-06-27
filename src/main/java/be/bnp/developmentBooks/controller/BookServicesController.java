@@ -23,7 +23,7 @@ public class BookServicesController {
     BasketService basketService;
 
     @GetMapping(value = "/ping")
-    public ResponseEntity<String> ping() throws Exception {
+    public ResponseEntity<String> ping() {
         logger.info("Démarrage des services OK .....");
         return new ResponseEntity<String>("Réponse du serveur: "+ HttpStatus.OK.name(), HttpStatus.OK);
     }

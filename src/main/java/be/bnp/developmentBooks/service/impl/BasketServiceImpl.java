@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.util.TypeKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -33,12 +34,13 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public String displayBasket() {
-        if (basket.getListBooks().keySet().size() > 0) {
+        HashMap<Book, Integer> listBook = basket.getListBooks();
+        if (listBook.keySet().size() > 0) {
             StringBuilder content = new StringBuilder();
-            for (Book book : basket.getListBooks().keySet()) {
+            for (Book book : listBook.keySet()) {
                 String name = book.getName();
-                int quantity = basket.getListBooks().get(book);
-                content.append(name + " quantity :  " + quantity);
+                int quantity = listBook.get(book);
+                content.append(name + " quantity :  " + quantity + "</br></br>");
             }
             return content.toString();
         } else {
