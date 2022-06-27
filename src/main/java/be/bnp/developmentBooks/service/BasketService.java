@@ -5,5 +5,9 @@ import be.bnp.developmentBooks.dto.Basket;
 
 public interface BasketService {
 
-    void add(long id, Basket basket);
+    void add(long id) throws Exception;
+
+    String displayBasket();
+
+    Basket getBasket();
 }
