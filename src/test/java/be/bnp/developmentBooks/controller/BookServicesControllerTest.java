@@ -126,7 +126,19 @@ class BookServicesControllerTest {
         bookServicesController.addToCart(2L);
         bookServicesController.addToCart(3L);
         bookServicesController.addToCart(4L);
-        // 4*(50-(50*0.2) =
+        // 4*(50-(50*0.2) = 160
         assertEquals("Total price : 160.0€", bookServicesController.computeTotalPriceFromCart());
+    }
+
+    @Test
+    void whenComputeTotalPriceFiveDifferentBooksThenTotalPriceShouldBeReducedBy25Percent() throws Exception {
+        bookServicesController.addToCart(1L);
+        bookServicesController.addToCart(2L);
+        bookServicesController.addToCart(3L);
+        bookServicesController.addToCart(4L);
+        bookServicesController.addToCart(5L);
+
+        // 5*(50-(50*0.25) = 187,5
+        assertEquals("Total price : 187.5€", bookServicesController.computeTotalPriceFromCart());
     }
 }
