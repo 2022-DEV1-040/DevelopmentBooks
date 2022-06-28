@@ -46,7 +46,7 @@ public class BookServicesController {
     }
 
     @GetMapping(value = "/computeTotalPriceFromCart")
-    public String computeTotalPriceFromCart()  {
+    public String computeTotalPriceFromCart() throws Exception {
         return "Total price : " + cartService.computeTotalPrice() + "€";
     }
 

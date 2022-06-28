@@ -155,4 +155,13 @@ class BookServicesControllerTest {
         assertEquals("Total price : 190.0€", bookServicesController.computeTotalPriceFromCart());
     }
 
+    @Test
+    void whenComputeTotalPriceTwoSameBooksAndOneDifferentThenTotalPriceMustBe2ReducedPricePlusOneFullPrice() throws Exception {
+        bookServicesController.addToCart(1L);
+        bookServicesController.addToCart(1L);
+
+        bookServicesController.addToCart(2L);
+        // 2*(50-(50*0,05)) + 50 = 145
+        assertEquals("Total price : 145.0€", bookServicesController.computeTotalPriceFromCart());
+    }
 }
