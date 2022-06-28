@@ -18,6 +18,8 @@ public class CartServiceImpl implements CartService {
 
     private Cart cart = new Cart();
 
+    private double[] reductions = {0,0.05,0.1,0.2,0.25};
+
     final int BOOK_VALUE = (50);
 
     @Override
@@ -47,7 +49,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public String displayCart() throws Exception {
+    public String displayCart() {
         HashMap<Book, Integer> listBook = cart.getListBooks();
         if (listBook.keySet().size() > 0) {
             StringBuilder content = new StringBuilder();
@@ -65,40 +67,40 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public double computeTotalPrice() throws Exception {
-        double totalBookValue = 0;
-        double reduction = 0;
-        int maxOccurences = Collections.min(cart.getListBooks().values());
-        Iterator it = cart.getListBooks().entrySet().iterator();
+    public double computeTotalPrice() {
+        double totalMin = 0;
+        double totalTemp = 0;
+        int maxOccurences;
+        int totalBookValue;
 
-        switch (cart.getListBooks().size()) {
-            case 2:
-                reduction = 0.05;
-                break;
-            case 3:
-                reduction = 0.1;
-                break;
-            case 4:
-                reduction = 0.2;
-                break;
-            case 5:
-                reduction = 0.25;
-                break;
-            default:
-                reduction = 0;
-        }
-        while (it.hasNext()) {
-            Map.Entry book = (Map.Entry) it.next();
+        HashMap<Book,Integer> listBooks = (HashMap<Book, Integer>) cart.getListBooks().clone();
 
-            totalBookValue += maxOccurences * (BOOK_VALUE - (BOOK_VALUE * reduction));
-            totalBookValue += BOOK_VALUE * ((Integer) book.getValue() - maxOccurences);
-            if ((Integer) book.getValue() - maxOccurences > 0) {
-                decrease(((Book) book.getKey()).getId());
-            } else {
-                it.remove();
+        for(int i=listBooks.size(); i>0; i--) {
+            int j = i;
+            while (j>0 && listBooks.size()>0) {
+                maxOccurences = Collections.min(listBooks.values());
+                totalBookValue = BOOK_VALUE * maxOccurences * listBooks.size();
+                totalTemp += totalBookValue - (totalBookValue * reductions[j-1]);
+                decreaseAllBooksBy(maxOccurences, listBooks);
+                j = listBooks.size();
             }
+
+            if(totalTemp > 0 && (totalTemp < totalMin || totalMin == 0)) {
+                totalMin = totalTemp;
+            }
+            listBooks = (HashMap<Book, Integer>) cart.getListBooks().clone();
+            totalTemp = 0;
         }
-        return totalBookValue;
+        return totalMin;
+    }
+
+    private void decreaseAllBooksBy(int maxOccurences, HashMap<Book, Integer> listBooks) {
+        for (Book book : listBooks.keySet()) {
+            int quantity = listBooks.get(book);
+            quantity -= maxOccurences;
+            listBooks.put(book,quantity);
+        }
+        listBooks.entrySet().removeIf(entry -> entry.getValue() == 0);
     }
 
     public Book findBookById(long id) throws Exception {
