@@ -90,7 +90,6 @@ class BookServicesControllerTest {
 
     @Test
     void whenComputeTotalPriceOneBookThenTotalPriceMustBeBookPrice() throws Exception {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
         // 1*(50-(50*0) = 50
         assertEquals("Total price : 50.0€", bookServicesController.computeTotalPriceFromCart());
@@ -98,7 +97,6 @@ class BookServicesControllerTest {
 
     @Test
     void whenComputeTotalPriceTwoSameBooksThenTotalPriceMustBeBookPriceMultiplyBy2() throws Exception {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(1L);
         // 2*(50-(50*0) = 100
@@ -107,10 +105,18 @@ class BookServicesControllerTest {
 
     @Test
     void whenComputeTotalPriceTwoDifferentBooksThenTotalPriceShouldBeReducedBy5Percent() throws Exception {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(2L);
         // 2*(50-(50*0.05) = 95
         assertEquals("Total price : 95.0€", bookServicesController.computeTotalPriceFromCart());
+    }
+
+    @Test
+    void whenComputeTotalPriceTreeDifferentBooksThenTotalPriceShouldBeReducedBy10Percent() throws Exception {
+        bookServicesController.addToCart(1L);
+        bookServicesController.addToCart(2L);
+        bookServicesController.addToCart(3L);
+        // 3*(50-(50*0.1) =
+        assertEquals("Total price : 135.0€", bookServicesController.computeTotalPriceFromCart());
     }
 }
