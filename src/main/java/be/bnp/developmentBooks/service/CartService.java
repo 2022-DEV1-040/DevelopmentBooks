@@ -12,4 +12,6 @@ public interface CartService {
     String displayCart();
 
     Cart getCart();
+
+    double computeTotalPrice();
 }

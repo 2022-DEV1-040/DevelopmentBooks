@@ -45,6 +45,11 @@ public class BookServicesController {
         return cartService.displayCart();
     }
 
+    @GetMapping(value = "/computeTotalPriceFromCart")
+    public String computeTotalPriceFromCart()  {
+        return "Total price : " + cartService.computeTotalPrice() + "€";
+    }
+
     @ExceptionHandler(Exception.class)
     public String handleError(HttpServletRequest req, Exception ex) {
         logger.error("Request: " + req.getRequestURL() + " ERROR " + ex);

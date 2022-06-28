@@ -8,8 +8,7 @@ import be.bnp.developmentBooks.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -18,6 +17,8 @@ public class CartServiceImpl implements CartService {
     private BookRepository bookRepository;
 
     private Cart cart = new Cart();
+
+    final int BOOK_VALUE = (50);
 
     @Override
     public void add(long id) throws Exception {
@@ -55,10 +56,19 @@ public class CartServiceImpl implements CartService {
                 int quantity = listBook.get(book);
                 content.append(name + " quantity :  " + quantity + "</br></br>");
             }
+
+            content.append("Total price : " + computeTotalPrice() + "€");
             return content.toString();
         } else {
             return "cart is empty";
         }
+    }
+
+    @Override
+    public double computeTotalPrice() {
+        double totalBookValue = BOOK_VALUE * cart.getListBooks().size();
+
+        return totalBookValue;
     }
 
     public Book findBookById(long id) throws Exception {
