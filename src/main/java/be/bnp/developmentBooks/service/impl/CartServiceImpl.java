@@ -67,12 +67,19 @@ public class CartServiceImpl implements CartService {
     @Override
     public double computeTotalPrice() {
         double totalBookValue = 0;
-
+        int countDifferent = 0;
+        double reduction = 0;
         for(Book book : cart.getListBooks().keySet()) {
-            totalBookValue = BOOK_VALUE * cart.getListBooks().get(book);
+            totalBookValue += BOOK_VALUE * cart.getListBooks().get(book);
+            countDifferent++;
         }
-
-        return totalBookValue;
+        switch (countDifferent) {
+            case 2 : reduction = 0.05;break;
+            case 3 : reduction = 0.1;break;
+            case 4 : reduction = 0.2; break;
+            case 5 : reduction = 0.25;
+        }
+        return totalBookValue - (totalBookValue * reduction);
     }
 
     public Book findBookById(long id) throws Exception {
