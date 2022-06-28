@@ -32,14 +32,14 @@ public class BookServicesController {
     public String addToCart(@PathVariable long id) throws Exception {
         cartService.add(id);
 
-        return "Book with id " + id + " added to cart <br/><br/>" + showCart();
+        return "Book with id " + id + " added to cart <br/><br/>";
     }
 
 
     @GetMapping(value = "/decreaseFromCart/{id}")
     public String decreaseFromCart(@PathVariable long id) throws Exception {
         cartService.decrease(id);
-        return "Book with id " + id + " decreased from cart <br/><br/>" + showCart();
+        return "Book with id " + id + " decreased from cart <br/><br/>";
     }
 
     @GetMapping(value = "/showCart")
