@@ -197,4 +197,29 @@ class BookServicesControllerTest {
         // 2*(200-(200*0,2) = 320
         assertEquals("Total price : 320.0€", bookServicesController.computeTotalPriceFromCart());
     }
+
+    @Test
+    void whenComputeTotalPriceComplexExampleThenTotalPriceMustCalculate() throws Exception {
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
+        bookServicesController.addToCart(2L);
+        bookServicesController.addToCart(2L);
+        bookServicesController.addToCart(2L);
+        bookServicesController.addToCart(2L);
+
+        bookServicesController.addToCart(3L);
+        bookServicesController.addToCart(3L);
+        bookServicesController.addToCart(3L);
+
+        bookServicesController.addToCart(4L);
+        bookServicesController.addToCart(4L);
+
+        bookServicesController.addToCart(5L);
+        // 200-(200*0,2) = 160
+        // 150-(150*0,1) = 135
+        // 100-(100*0,05) = 95
+        // 50
+        assertEquals("Total price : 440.0€", bookServicesController.computeTotalPriceFromCart());
+    }
+
+
 }

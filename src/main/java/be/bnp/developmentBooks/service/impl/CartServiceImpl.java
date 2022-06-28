@@ -79,9 +79,9 @@ public class CartServiceImpl implements CartService {
             int j = i;
             while (j>0 && listBooks.size()>0) {
                 maxOccurences = Collections.min(listBooks.values());
-                totalBookValue = BOOK_VALUE * maxOccurences * listBooks.size();
-                totalTemp += totalBookValue - (totalBookValue * reductions[j-1]);
-                decreaseAllBooksBy(maxOccurences, listBooks);
+                totalBookValue = BOOK_VALUE * j;
+                totalTemp += maxOccurences * (totalBookValue - (totalBookValue * reductions[j-1]));
+                decreaseNumberBooksBy(maxOccurences, listBooks, j);
                 j = listBooks.size();
             }
 
@@ -94,11 +94,15 @@ public class CartServiceImpl implements CartService {
         return totalMin;
     }
 
-    private void decreaseAllBooksBy(int maxOccurences, HashMap<Book, Integer> listBooks) {
+    private void decreaseNumberBooksBy(int maxOccurences, HashMap<Book, Integer> listBooks, int numberBookToDecrease) {
         for (Book book : listBooks.keySet()) {
             int quantity = listBooks.get(book);
             quantity -= maxOccurences;
             listBooks.put(book,quantity);
+            numberBookToDecrease--;
+            if (numberBookToDecrease == 0) {
+                break;
+            }
         }
         listBooks.entrySet().removeIf(entry -> entry.getValue() == 0);
     }
