@@ -141,4 +141,18 @@ class BookServicesControllerTest {
         // 5*(50-(50*0.25) = 187,5
         assertEquals("Total price : 187.5€", bookServicesController.computeTotalPriceFromCart());
     }
+
+    @Test
+    void whenComputeTotalPriceTwoDifferentBooksWith2QuantityEachThenTotalPriceShouldBeReducedBy5Percent() throws Exception {
+        bookServicesController.addToCart(1L);
+        bookServicesController.addToCart(1L);
+
+        bookServicesController.addToCart(2L);
+        bookServicesController.addToCart(2L);
+
+        // 2*(50-(50*0.05) = 95
+        // 2*(50-(50*0.05) = 95
+        assertEquals("Total price : 190.0€", bookServicesController.computeTotalPriceFromCart());
+    }
+
 }
