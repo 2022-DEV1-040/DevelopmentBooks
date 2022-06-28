@@ -116,7 +116,7 @@ class BookServicesControllerTest {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(2L);
         bookServicesController.addToCart(3L);
-        // 3*(50-(50*0.1) =
+        // 3*(50-(50*0.1) = 135
         assertEquals("Total price : 135.0€", bookServicesController.computeTotalPriceFromCart());
     }
 
@@ -221,5 +221,39 @@ class BookServicesControllerTest {
         assertEquals("Total price : 440.0€", bookServicesController.computeTotalPriceFromCart());
     }
 
+    @Test
+    void whenComputeTotalPriceComplexExample2ThenTotalPriceMustCalculate() throws Exception {
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
+        bookServicesController.addToCart(1L);
+        bookServicesController.addToCart(1L);
+        bookServicesController.addToCart(1L);
+        bookServicesController.addToCart(1L);
+        bookServicesController.addToCart(1L);
 
+
+        bookServicesController.addToCart(2L);
+        bookServicesController.addToCart(2L);
+        bookServicesController.addToCart(2L);
+        bookServicesController.addToCart(2L);
+        bookServicesController.addToCart(2L);
+
+        bookServicesController.addToCart(3L);
+        bookServicesController.addToCart(3L);
+        bookServicesController.addToCart(3L);
+        bookServicesController.addToCart(3L);
+
+        bookServicesController.addToCart(4L);
+        bookServicesController.addToCart(4L);
+        bookServicesController.addToCart(4L);
+        bookServicesController.addToCart(4L);
+        bookServicesController.addToCart(4L);
+
+        bookServicesController.addToCart(5L);
+        bookServicesController.addToCart(5L);
+        bookServicesController.addToCart(5L);
+        bookServicesController.addToCart(5L);
+        // 3*(250-(250*0,25) = 562,5
+        // 2*(200-(200*0,2) = 320
+        assertEquals("Total price : 882.5€", bookServicesController.computeTotalPriceFromCart());
+    }
 }

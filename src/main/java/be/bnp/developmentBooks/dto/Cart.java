@@ -8,7 +8,15 @@ import java.util.HashMap;
 @Data
 public class Cart {
 
-    long totalPrice;
+    double totalPrice;
     // book with quantity
     HashMap<Book,Integer> listBooks = new HashMap<>();
+
+    public Cart() {
+    }
+
+    public Cart(double totalPrice, HashMap<Book, Integer> listBooks) {
+        this.totalPrice = totalPrice;
+        this.listBooks = listBooks;
+    }
 }

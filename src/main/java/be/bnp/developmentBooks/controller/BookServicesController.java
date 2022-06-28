@@ -47,12 +47,17 @@ public class BookServicesController {
 
     @GetMapping(value = "/computeTotalPriceFromCart")
     public String computeTotalPriceFromCart() {
-        return "Total price : " + cartService.computeTotalPrice() + "€";
+        try {
+            return "Total price : " + cartService.computeTotalPrice() + "€";
+        } catch (Exception e) {
+            logger.error("an exception was thrown", e);
+            return "An exception was thrown see the log";
+        }
     }
 
     @ExceptionHandler(Exception.class)
     public String handleError(HttpServletRequest req, Exception ex) {
-        logger.error("Request: " + req.getRequestURL() + " ERROR " + ex);
+        logger.error("Request: " + req.getRequestURL() + " ERROR " + ex.getStackTrace());
 
         return ex.getMessage();
     }
