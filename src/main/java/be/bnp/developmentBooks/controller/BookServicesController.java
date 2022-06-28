@@ -31,24 +31,26 @@ public class BookServicesController {
     @GetMapping(value = "/addToCart/{id}")
     public String addToCart(@PathVariable long id) throws Exception {
         cartService.add(id);
-        return "Book with id " + id + " added to cart ";
+
+        return "Book with id " + id + " added to cart <br/><br/>" + showCart();
     }
+
 
     @GetMapping(value = "/decreaseFromCart/{id}")
     public String decreaseFromCart(@PathVariable long id) throws Exception {
         cartService.decrease(id);
-        return "Book with id " + id + " decreased from cart ";
+        return "Book with id " + id + " decreased from cart <br/><br/>" + showCart();
     }
 
     @GetMapping(value = "/showCart")
     public String showCart() throws Exception {
-        return cartService.displayCart();
+        return  cartService.displayCart();
     }
 
     @GetMapping(value = "/computeTotalPriceFromCart")
     public String computeTotalPriceFromCart() {
         try {
-            return "Total price : " + cartService.computeTotalPrice() + "€";
+            return "Total price : " + String.format("%.2f",cartService.computeTotalPrice()) + "€";
         } catch (Exception e) {
             logger.error("an exception was thrown", e);
             return "An exception was thrown see the log";

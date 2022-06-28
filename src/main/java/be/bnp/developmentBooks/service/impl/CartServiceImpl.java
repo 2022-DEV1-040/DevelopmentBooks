@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -63,7 +64,7 @@ public class CartServiceImpl implements CartService {
                 content.append(name + " quantity :  " + quantity + "</br></br>");
             }
 
-            content.append("Total price : " + computeTotalPrice() + "€");
+            content.append("Total price : " + String.format("%.2f",computeTotalPrice()) + "€");
             return content.toString();
         } else {
             return "cart is empty";
