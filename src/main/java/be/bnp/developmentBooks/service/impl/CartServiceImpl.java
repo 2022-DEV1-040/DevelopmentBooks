@@ -66,7 +66,11 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public double computeTotalPrice() {
-        double totalBookValue = BOOK_VALUE * cart.getListBooks().size();
+        double totalBookValue = 0;
+
+        for(Book book : cart.getListBooks().keySet()) {
+            totalBookValue = BOOK_VALUE * cart.getListBooks().get(book);
+        }
 
         return totalBookValue;
     }

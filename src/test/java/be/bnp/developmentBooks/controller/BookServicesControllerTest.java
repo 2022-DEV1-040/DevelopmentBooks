@@ -95,4 +95,13 @@ class BookServicesControllerTest {
         // 1*(50-(50*0) = 50
         assertEquals("Total price : 50.0€", bookServicesController.computeTotalPriceFromCart());
     }
+
+    @Test
+    void whenComputeTotalPriceTwoSameBooksThenTotalPriceMustBeBookPriceMultiplyBy2() throws Exception {
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
+        bookServicesController.addToCart(1L);
+        bookServicesController.addToCart(1L);
+        // 2*(50-(50*0) = 100
+        assertEquals("Total price : 100.0€", bookServicesController.computeTotalPriceFromCart());
+    }
 }
