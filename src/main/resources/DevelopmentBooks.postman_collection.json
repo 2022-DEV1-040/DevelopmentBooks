@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "a31fd9ed-4248-4b65-b656-ce165a45af0e",
+		"name": "DevelopmentBooks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "addToCart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/addToCart/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"addToCart",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addListToCart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/addListToCart?ids=1,2,2,3,3,3,4,4,4,4,5,5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"addListToCart"
+					],
+					"query": [
+						{
+							"key": "ids",
+							"value": "1,2,2,3,3,3,4,4,4,4,5,5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "decreaseFromCart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/decreaseFromCart/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"decreaseFromCart",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clearCart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/clearCart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clearCart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "showCart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/showCart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"showCart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "computeTotalPriceFromCart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/computeTotalPriceFromCart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"computeTotalPriceFromCart"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
