@@ -16,4 +16,6 @@ public interface CartService {
     Cart getCart();
 
     void setCart(Cart previousCart);
+
+    void clear();
 }

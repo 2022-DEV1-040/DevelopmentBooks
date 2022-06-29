@@ -64,7 +64,11 @@ public class BookServicesController {
         return "Book with id " + id + " decreased from cart <br/><br/>";
     }
 
-
+    @GetMapping(value = "/clearCart")
+    public String clearCart() {
+        cartService.clear();
+        return showCart();
+    }
 
     @GetMapping(value = "/showCart")
     public String showCart() {

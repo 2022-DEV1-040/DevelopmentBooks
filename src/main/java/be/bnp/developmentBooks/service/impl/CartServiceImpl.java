@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -45,12 +44,11 @@ public class CartServiceImpl implements CartService {
         Integer quantity = cart.getListBooks().get(book);
         if (quantity != null && quantity != 0) {
             quantity--;
-        }
-        if (quantity == 0) {
-            cart.getListBooks().remove(book);
         } else {
-            cart.getListBooks().put(book, quantity);
+           cart.getListBooks().remove(book);
         }
+
+        cart.getListBooks().put(book, quantity);
     }
 
     @Override
@@ -209,5 +207,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    @Override
+    public void clear() {
+        setCart(new Cart());
     }
 }

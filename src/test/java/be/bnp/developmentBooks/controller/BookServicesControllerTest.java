@@ -138,6 +138,21 @@ class BookServicesControllerTest {
     }
 
     @Test
+    void whenClearCartThenTheCartMustBeEmpty() {
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
+        bookServicesController.addToCart(1L);
+        assertEquals(1, listBook.entrySet().size());
+        bookServicesController.addToCart(1L);
+        assertEquals(1, listBook.entrySet().size());
+        bookServicesController.addToCart(1L);
+        assertEquals(1, listBook.entrySet().size());
+        bookServicesController.addToCart(2L);
+        assertEquals(2, listBook.entrySet().size());
+        bookServicesController.clearCart();
+        assertTrue(bookServicesController.getCart().getListBooks().isEmpty());
+    }
+
+    @Test
     void whenComputeTotalPriceOneBookThenTotalPriceMustBeBookPrice() {
         bookServicesController.addToCart(1L);
         // 1*(50-(50*0) = 50
