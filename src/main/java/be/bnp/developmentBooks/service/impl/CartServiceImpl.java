@@ -54,17 +54,16 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public String displayCart() throws Exception {
+    public String displayCart() {
         HashMap<Book, Integer> listBook = cart.getListBooks();
         if (listBook.keySet().size() > 0) {
             StringBuilder content = new StringBuilder();
             for (Book book : listBook.keySet()) {
                 String name = book.getName();
                 int quantity = listBook.get(book);
-                content.append(name + " quantity :  " + quantity + "</br></br>");
+                content.append("id: " + book.getId() + " " + name + " quantity :  " + quantity + "</br></br>");
             }
 
-            content.append("Total price : " + String.format("%.2f",computeTotalPrice()) + "€");
             return content.toString();
         } else {
             return "cart is empty";
@@ -124,6 +123,8 @@ public class CartServiceImpl implements CartService {
         }
 
         List<Integer> values = new ArrayList<>(map.values());
+        // begin with the max value to avoid deleted books with lower quantity
+        Collections.sort(values, Collections.reverseOrder());
         boolean continuous = true;
 
         while (continuous) {
@@ -166,22 +167,26 @@ public class CartServiceImpl implements CartService {
         if (numberBookToDecrease > listBooks.size()) {
             throw new Exception("Impossible to decrease " + numberBookToDecrease + " we have only " + listBooks.size() + " books in the list");
         }
+
         int totalQuantityDecrease = numberBookToDecrease * maxOccurences;
-        int i = 0;
 
         Iterator<Map.Entry<Book, Integer>> iterator = listBooks.entrySet().iterator();
-        while (iterator.hasNext() && i < totalQuantityDecrease) {
+        while (totalQuantityDecrease > 0) {
             Map.Entry<Book, Integer> book = iterator.next();
-            int quantity = book.getValue();
-            // Avoid value less than 0
-            if (quantity < maxOccurences) {
-                i += maxOccurences - quantity;
-                quantity = 0;
+            int quantity = book.getValue() - 1;
+            if (quantity == 0) {
+                iterator.remove();
             } else {
-                quantity -= maxOccurences;
-                i += maxOccurences;
+                book.setValue(quantity);
             }
-            book.setValue(quantity);
+            totalQuantityDecrease--;
+            if (!iterator.hasNext()) {
+                if (listBooks.isEmpty()) {
+                    break;
+                } else {
+                    iterator = listBooks.entrySet().iterator();
+                }
+            }
         }
 
         listBooks.entrySet().removeIf(entry -> entry.getValue() == 0);
@@ -201,6 +206,7 @@ public class CartServiceImpl implements CartService {
         return cart;
     }
 
+    @Override
     public void setCart(Cart cart) {
         this.cart = cart;
     }

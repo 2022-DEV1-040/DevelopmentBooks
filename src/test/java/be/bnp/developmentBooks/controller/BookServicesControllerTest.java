@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 // Reset the context between each test
@@ -140,7 +141,7 @@ class BookServicesControllerTest {
     void whenComputeTotalPriceOneBookThenTotalPriceMustBeBookPrice() {
         bookServicesController.addToCart(1L);
         // 1*(50-(50*0) = 50
-        assertEquals("Total price : 50,00€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 50,00€"));
     }
 
     @Test
@@ -148,7 +149,7 @@ class BookServicesControllerTest {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(1L);
         // 2*(50-(50*0) = 100
-        assertEquals("Total price : 100,00€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 100,00€"));
     }
 
     @Test
@@ -156,7 +157,7 @@ class BookServicesControllerTest {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(2L);
         // 2*(50-(50*0.05) = 95
-        assertEquals("Total price : 95,00€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 95,00€"));
     }
 
     @Test
@@ -165,7 +166,7 @@ class BookServicesControllerTest {
         bookServicesController.addToCart(2L);
         bookServicesController.addToCart(3L);
         // 3*(50-(50*0.1) = 135
-        assertEquals("Total price : 135,00€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 135,00€"));
     }
 
     @Test
@@ -175,7 +176,7 @@ class BookServicesControllerTest {
         bookServicesController.addToCart(3L);
         bookServicesController.addToCart(4L);
         // 4*(50-(50*0.2) = 160
-        assertEquals("Total price : 160,00€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 160,00€"));
     }
 
     @Test
@@ -187,7 +188,7 @@ class BookServicesControllerTest {
         bookServicesController.addToCart(5L);
 
         // 5*(50-(50*0.25) = 187,5
-        assertEquals("Total price : 187,50€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 187,50€"));
     }
 
     @Test
@@ -200,7 +201,7 @@ class BookServicesControllerTest {
 
         // 2*(50-(50*0.05) = 95
         // 2*(50-(50*0.05) = 95
-        assertEquals("Total price : 190,00€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 190,00€"));
     }
 
     @Test
@@ -210,7 +211,7 @@ class BookServicesControllerTest {
 
         bookServicesController.addToCart(2L);
         // 2*(50-(50*0,05)) + 50 = 145
-        assertEquals("Total price : 145,00€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 145,00€"));
     }
 
     @Test
@@ -223,7 +224,7 @@ class BookServicesControllerTest {
         bookServicesController.addToCart(2L);
 
         // 4*(50-(50*0,05)) + 50 = 240
-        assertEquals("Total price : 240,00€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 240,00€"));
     }
 
     @Test
@@ -236,7 +237,7 @@ class BookServicesControllerTest {
         bookServicesController.addListToCart(listIds);
 
         // 2*(200-(200*0,2) = 320
-        assertEquals("Total price : 320,00€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 320,00€"));
     }
 
     @Test
@@ -251,7 +252,7 @@ class BookServicesControllerTest {
         // 150-(150*0,1) = 135
         // 100-(100*0,05) = 95
         // 50
-        assertEquals("Total price : 440,00€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 440,00€"));
     }
 
     @Test
@@ -265,6 +266,6 @@ class BookServicesControllerTest {
         
         // 3*(250-(250*0,25) = 562,5
         // 2*(200-(200*0,2) = 320
-        assertEquals("Total price : 882,50€", bookServicesController.computeTotalPriceFromCart());
+        assertTrue(bookServicesController.computeTotalPriceFromCart().contains("Total price : 882,50€"));
     }
 }
