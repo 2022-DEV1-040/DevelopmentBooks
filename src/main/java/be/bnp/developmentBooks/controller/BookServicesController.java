@@ -40,7 +40,7 @@ public class BookServicesController {
 
     @RequestMapping(value = "/addListToCart", params = "ids", method = RequestMethod.GET)
     public String addListToCart(@RequestParam List<Long> ids) {
-        Cart previousCart = cartService.getCart();
+        Cart previousCart = new Cart(cartService.getCart());
         for (Long id : ids) {
             try {
                 cartService.add(id);
@@ -59,10 +59,12 @@ public class BookServicesController {
             cartService.decrease(id);
         } catch (Exception e) {
             logger.error("an exception was thrown during decreaseFromCart", e);
-            return "An exception was thrown during decrease book id : " + id + " see the log";
+            return "Error during decrease from cart: " + e.getMessage();
         }
         return "Book with id " + id + " decreased from cart <br/><br/>";
     }
+
+
 
     @GetMapping(value = "/showCart")
     public String showCart() {

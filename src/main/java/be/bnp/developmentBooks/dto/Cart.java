@@ -19,4 +19,9 @@ public class Cart {
         this.totalPrice = totalPrice;
         this.listBooks = listBooks;
     }
+
+    public Cart(Cart cart) {
+        this.totalPrice = cart.getTotalPrice();
+        this.listBooks = (HashMap<Book, Integer>) cart.getListBooks().clone();
+    }
 }

@@ -41,6 +41,11 @@ class BookServicesControllerTest {
     }
 
     @Test
+    void whenAddToCartUnexistingBookThenErrorMustBeThrow() {
+        assertEquals("Error during add to cart: book with id: -1 not exist", bookServicesController.addToCart(-1L));
+    }
+
+    @Test
     void whenAddToCartManyBooksThenQuantityMustCalculate() {
         HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
@@ -78,12 +83,36 @@ class BookServicesControllerTest {
     }
 
     @Test
+    void whenAddListToCartManyBooksWithOneUnexistingThenTheCartMustBeRestored() {
+        List<Long> listIds = Arrays.asList(1L,1L,1L,2L);
+        bookServicesController.addListToCart(listIds);
+        listIds = Arrays.asList(1L,1L,1L,-1L,2L);
+        assertEquals("Error during add list to cart : book with id: -1 not exist the previous cart was restored", bookServicesController.addListToCart(listIds));
+
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
+        assertEquals(2, listBook.entrySet().size());
+        for (Book book : listBook.keySet()) {
+            int quantity = listBook.get(book);
+            if (book.getId() == 1) {
+                assertEquals(3, quantity);
+            } else {
+                assertEquals(1, quantity);
+            }
+        }
+    }
+
+    @Test
     void whenDecreaseFromCartAndQuantityBecomeZeroThenBookIsDelete() {
         HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
         assertEquals(1, listBook.entrySet().size());
         bookServicesController.decreaseFromCart(1L);
         assertEquals(0, listBook.entrySet().size());
+    }
+
+    @Test
+    void whenDecreaseFromCartUnexistingBookThenErrorMustBeThrow() {
+        assertEquals("Error during decrease from cart: book with id: -1 not exist", bookServicesController.decreaseFromCart(-1L));
     }
 
     @Test
