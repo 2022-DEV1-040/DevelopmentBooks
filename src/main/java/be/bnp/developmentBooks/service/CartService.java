@@ -9,9 +9,11 @@ public interface CartService {
 
     void decrease(long id) throws Exception;
 
-    String displayCart() throws Exception;
+    String displayCart();
+
+    double computeTotalPrice() throws Exception;
 
     Cart getCart();
 
-    double computeTotalPrice() throws Exception;
+    void setCart(Cart previousCart);
 }

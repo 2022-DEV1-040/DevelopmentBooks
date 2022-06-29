@@ -32,28 +32,25 @@ public class BookServicesController {
             cartService.add(id);
         } catch (Exception e) {
             logger.error("an exception was thrown during add to cart", e);
-            return "An exception was thrown see the log";
+            return "Error during add to cart: " + e.getMessage();
         }
 
-        return "Book with id " + id + " added to cart <br/><br/>";
+        return "Book with id " + id + " added to cart <br/><br/>" + showCart();
     }
 
     @RequestMapping(value = "/addListToCart", params = "ids", method = RequestMethod.GET)
     public String addListToCart(@RequestParam List<Long> ids) {
+        Cart previousCart = cartService.getCart();
         for (Long id : ids) {
             try {
                 cartService.add(id);
             } catch (Exception e) {
-                logger.error("an exception was thrown during add to cart", e);
-                return "An exception was thrown see the log";
+                cartService.setCart(previousCart);
+                logger.error("an exception was thrown during add list to cart", e);
+                return "Error during add list to cart : " + e.getMessage() + " the previous cart was restored";
             }
         }
-        try {
-            return showCart();
-        } catch (Exception e) {
-            logger.error("an exception was thrown during showCart", e);
-            return "An exception was thrown during showCart see the log";
-        }
+        return showCart();
     }
 
     @GetMapping(value = "/decreaseFromCart/{id}")
@@ -69,21 +66,16 @@ public class BookServicesController {
 
     @GetMapping(value = "/showCart")
     public String showCart() {
-        try {
-            return  cartService.displayCart();
-        } catch (Exception e) {
-            logger.error("an exception was thrown during showCart", e);
-            return "An exception was thrown during showCart see the log";
-        }
+        return cartService.displayCart();
     }
 
     @GetMapping(value = "/computeTotalPriceFromCart")
     public String computeTotalPriceFromCart() {
         try {
-            return "Total price : " + String.format("%.2f",cartService.computeTotalPrice()) + "€";
+            return cartService.displayCart() + "Total price : " + String.format("%.2f",cartService.computeTotalPrice()) + "€";
         } catch (Exception e) {
-            logger.error("an exception was thrown", e);
-            return "An exception was thrown see the log";
+            logger.error("an exception was thrown during computeTotalPriceFromCart", e);
+            return "An exception was thrown during computeTotalPriceFromCart see the log";
         }
     }
 
