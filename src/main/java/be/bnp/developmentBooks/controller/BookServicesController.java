@@ -7,12 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 public class BookServicesController {
@@ -29,22 +27,54 @@ public class BookServicesController {
     }
 
     @GetMapping(value = "/addToCart/{id}")
-    public String addToCart(@PathVariable long id) throws Exception {
-        cartService.add(id);
+    public String addToCart(@PathVariable long id) {
+        try {
+            cartService.add(id);
+        } catch (Exception e) {
+            logger.error("an exception was thrown during add to cart", e);
+            return "An exception was thrown see the log";
+        }
 
         return "Book with id " + id + " added to cart <br/><br/>";
     }
 
+    @RequestMapping(value = "/addListToCart", params = "ids", method = RequestMethod.GET)
+    public String addListToCart(@RequestParam List<Long> ids) {
+        for (Long id : ids) {
+            try {
+                cartService.add(id);
+            } catch (Exception e) {
+                logger.error("an exception was thrown during add to cart", e);
+                return "An exception was thrown see the log";
+            }
+        }
+        try {
+            return showCart();
+        } catch (Exception e) {
+            logger.error("an exception was thrown during showCart", e);
+            return "An exception was thrown during showCart see the log";
+        }
+    }
 
     @GetMapping(value = "/decreaseFromCart/{id}")
-    public String decreaseFromCart(@PathVariable long id) throws Exception {
-        cartService.decrease(id);
+    public String decreaseFromCart(@PathVariable long id) {
+        try {
+            cartService.decrease(id);
+        } catch (Exception e) {
+            logger.error("an exception was thrown during decreaseFromCart", e);
+            return "An exception was thrown during decrease book id : " + id + " see the log";
+        }
         return "Book with id " + id + " decreased from cart <br/><br/>";
     }
 
     @GetMapping(value = "/showCart")
-    public String showCart() throws Exception {
-        return  cartService.displayCart();
+    public String showCart() {
+        try {
+            return  cartService.displayCart();
+        } catch (Exception e) {
+            logger.error("an exception was thrown during showCart", e);
+            return "An exception was thrown during showCart see the log";
+        }
     }
 
     @GetMapping(value = "/computeTotalPriceFromCart")

@@ -7,7 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,7 +28,7 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenAddToCartNewBookThenQuantityMustBeOne() throws Exception {
+    void whenAddToCartNewBookThenQuantityMustBeOne() {
         HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
         assertEquals(1, listBook.entrySet().size());
@@ -38,7 +41,7 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenAddToCartManyBooksThenQuantityMustCalculate() throws Exception {
+    void whenAddToCartManyBooksThenQuantityMustCalculate() {
         HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
         assertEquals(1, listBook.entrySet().size());
@@ -59,7 +62,23 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenDecreaseFromCartAndQuantityBecomeZeroThenBookIsDelete() throws Exception {
+    void whenAddListToCartManyBooksThenQuantityMustCalculate() {
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
+        List<Long> listIds = Arrays.asList(1L,1L,1L,2L);
+        bookServicesController.addListToCart(listIds);
+        assertEquals(2, listBook.entrySet().size());
+        for (Book book : listBook.keySet()) {
+            int quantity = listBook.get(book);
+            if (book.getId() == 1) {
+                assertEquals(3, quantity);
+            } else {
+                assertEquals(1, quantity);
+            }
+        }
+    }
+
+    @Test
+    void whenDecreaseFromCartAndQuantityBecomeZeroThenBookIsDelete() {
         HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
         assertEquals(1, listBook.entrySet().size());
@@ -68,7 +87,7 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenDecreaseFromCartManyBooksThenQuantityMustCalculate() throws Exception {
+    void whenDecreaseFromCartManyBooksThenQuantityMustCalculate() {
         HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
         assertEquals(1, listBook.entrySet().size());
@@ -89,14 +108,14 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenComputeTotalPriceOneBookThenTotalPriceMustBeBookPrice() throws Exception {
+    void whenComputeTotalPriceOneBookThenTotalPriceMustBeBookPrice() {
         bookServicesController.addToCart(1L);
         // 1*(50-(50*0) = 50
         assertEquals("Total price : 50,00€", bookServicesController.computeTotalPriceFromCart());
     }
 
     @Test
-    void whenComputeTotalPriceTwoSameBooksThenTotalPriceMustBeBookPriceMultiplyBy2() throws Exception {
+    void whenComputeTotalPriceTwoSameBooksThenTotalPriceMustBeBookPriceMultiplyBy2() {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(1L);
         // 2*(50-(50*0) = 100
@@ -104,7 +123,7 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenComputeTotalPriceTwoDifferentBooksThenTotalPriceShouldBeReducedBy5Percent() throws Exception {
+    void whenComputeTotalPriceTwoDifferentBooksThenTotalPriceShouldBeReducedBy5Percent() {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(2L);
         // 2*(50-(50*0.05) = 95
@@ -112,7 +131,7 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenComputeTotalPriceTreeDifferentBooksThenTotalPriceShouldBeReducedBy10Percent() throws Exception {
+    void whenComputeTotalPriceTreeDifferentBooksThenTotalPriceShouldBeReducedBy10Percent() {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(2L);
         bookServicesController.addToCart(3L);
@@ -121,7 +140,7 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenComputeTotalPriceFourDifferentBooksThenTotalPriceShouldBeReducedBy20Percent() throws Exception {
+    void whenComputeTotalPriceFourDifferentBooksThenTotalPriceShouldBeReducedBy20Percent() {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(2L);
         bookServicesController.addToCart(3L);
@@ -131,7 +150,7 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenComputeTotalPriceFiveDifferentBooksThenTotalPriceShouldBeReducedBy25Percent() throws Exception {
+    void whenComputeTotalPriceFiveDifferentBooksThenTotalPriceShouldBeReducedBy25Percent() {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(2L);
         bookServicesController.addToCart(3L);
@@ -143,7 +162,7 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenComputeTotalPriceTwoDifferentBooksWith2QuantityEachThenTotalPriceShouldBeReducedBy5Percent() throws Exception {
+    void whenComputeTotalPriceTwoDifferentBooksWith2QuantityEachThenTotalPriceShouldBeReducedBy5Percent() {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(1L);
 
@@ -156,7 +175,7 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenComputeTotalPriceTwoSameBooksAndOneDifferentThenTotalPriceMustBe2ReducedPricePlusOneFullPrice() throws Exception {
+    void whenComputeTotalPriceTwoSameBooksAndOneDifferentThenTotalPriceMustBe2ReducedPricePlusOneFullPrice() {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(1L);
 
@@ -166,7 +185,7 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenComputeTotalPriceTwoSameBooks2TimesAndOneDifferentThenTotalPriceMustBe2ReducedPricePlusOneFullPrice() throws Exception {
+    void whenComputeTotalPriceTwoSameBooks2TimesAndOneDifferentThenTotalPriceMustBe2ReducedPricePlusOneFullPrice() {
         bookServicesController.addToCart(1L);
         bookServicesController.addToCart(1L);
 
@@ -179,41 +198,26 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenComputeTotalPriceSimpleExampleThenTotalPriceMustCalculate() throws Exception {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
-        bookServicesController.addToCart(1L);
-        bookServicesController.addToCart(1L);
-
-        bookServicesController.addToCart(2L);
-        bookServicesController.addToCart(2L);
-
-        bookServicesController.addToCart(3L);
-        bookServicesController.addToCart(3L);
-
-        bookServicesController.addToCart(4L);
-
-        bookServicesController.addToCart(5L);
+    void whenComputeTotalPriceSimpleExampleThenTotalPriceMustCalculate() {
+        List<Long> listIds = Arrays.asList(1L,1L,
+                                            2L,2L,
+                                            3L,3L,
+                                            4L,
+                                            5L);
+        bookServicesController.addListToCart(listIds);
 
         // 2*(200-(200*0,2) = 320
         assertEquals("Total price : 320,00€", bookServicesController.computeTotalPriceFromCart());
     }
 
     @Test
-    void whenComputeTotalPriceComplexExampleThenTotalPriceMustCalculate() throws Exception {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
-        bookServicesController.addToCart(2L);
-        bookServicesController.addToCart(2L);
-        bookServicesController.addToCart(2L);
-        bookServicesController.addToCart(2L);
-
-        bookServicesController.addToCart(3L);
-        bookServicesController.addToCart(3L);
-        bookServicesController.addToCart(3L);
-
-        bookServicesController.addToCart(4L);
-        bookServicesController.addToCart(4L);
-
-        bookServicesController.addToCart(5L);
+    void whenComputeTotalPriceComplexExampleThenTotalPriceMustCalculate() {
+        List<Long> listIds = Arrays.asList(2L,2L,2L,2L,
+                                            3L,3L,3L,
+                                            4L,4L,
+                                            5L);
+        bookServicesController.addListToCart(listIds);
+        
         // 200-(200*0,2) = 160
         // 150-(150*0,1) = 135
         // 100-(100*0,05) = 95
@@ -222,36 +226,14 @@ class BookServicesControllerTest {
     }
 
     @Test
-    void whenComputeTotalPriceComplexExample2ThenTotalPriceMustCalculate() throws Exception {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
-        bookServicesController.addToCart(1L);
-        bookServicesController.addToCart(1L);
-        bookServicesController.addToCart(1L);
-        bookServicesController.addToCart(1L);
-        bookServicesController.addToCart(1L);
-
-
-        bookServicesController.addToCart(2L);
-        bookServicesController.addToCart(2L);
-        bookServicesController.addToCart(2L);
-        bookServicesController.addToCart(2L);
-        bookServicesController.addToCart(2L);
-
-        bookServicesController.addToCart(3L);
-        bookServicesController.addToCart(3L);
-        bookServicesController.addToCart(3L);
-        bookServicesController.addToCart(3L);
-
-        bookServicesController.addToCart(4L);
-        bookServicesController.addToCart(4L);
-        bookServicesController.addToCart(4L);
-        bookServicesController.addToCart(4L);
-        bookServicesController.addToCart(4L);
-
-        bookServicesController.addToCart(5L);
-        bookServicesController.addToCart(5L);
-        bookServicesController.addToCart(5L);
-        bookServicesController.addToCart(5L);
+    void whenComputeTotalPriceComplexExample2ThenTotalPriceMustCalculate() {
+        List<Long> listIds = Arrays.asList(1L,1L,1L,1L,1L,
+                                            2L,2L,2L,2L,2L,
+                                            3L,3L,3L,3L,
+                                            4L,4L,4L,4L,4L,
+                                            5L,5L,5L,5L);
+        bookServicesController.addListToCart(listIds);
+        
         // 3*(250-(250*0,25) = 562,5
         // 2*(200-(200*0,2) = 320
         assertEquals("Total price : 882,50€", bookServicesController.computeTotalPriceFromCart());
