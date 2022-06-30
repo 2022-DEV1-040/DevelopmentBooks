@@ -1,5 +1,7 @@
 # DevelopmentBooks
 
+This code was written with JDK 1.8 and maven 3.8.5
+
 For run the application you just need to run the class DevelopmentBooksApplication.
 
 In the folder resources you can find :
