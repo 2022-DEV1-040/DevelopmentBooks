@@ -95,13 +95,13 @@ public class CartServiceImpl implements CartService {
         // previousListBooks same usage of previousTotal Temp
         HashMap<Book,Integer> previousListBooks;
 
-        /* 2 "for" the first is necessary for try with lower package otherwise he take only the biggest.
+        /* 2 "for" the first is necessary for try with lower package size otherwise he take only the biggest.
             We begin with listBooks.size(), the size give us the numbers of differents books.
             example : si the test whenComputeTotalPriceSimpleExampleThenTotalPriceMustCalculate.
             the second is for calculate the amount with all package possible.
          */
-        for(int i=listBooks.size(); i>0; i--) {
-            packageSize = i;
+        for(int packageSizePossible=listBooks.size(); packageSizePossible>0; packageSizePossible--) {
+            packageSize = packageSizePossible;
             listBooks = (HashMap<Book, Integer>) cart.getListBooks().clone();
             totalTemp = 0;
             while (packageSize>0 && listBooks.size()>0) {
@@ -130,6 +130,7 @@ public class CartServiceImpl implements CartService {
                     }
                 }
 
+                // if packageSizeUpdated that means listBooks.size can be the same as packageSize
                 if(!packageSizeUpdated) {
                     packageSize = listBooks.size();
                 }
