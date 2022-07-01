@@ -22,8 +22,8 @@ public class BookServicesController {
 
     @GetMapping(value = "/ping")
     public ResponseEntity<String> ping() {
-        logger.info("Démarrage des services OK .....");
-        return new ResponseEntity<String>("Réponse du serveur: "+ HttpStatus.OK.name(), HttpStatus.OK);
+        logger.info("Starting services OK .....");
+        return new ResponseEntity<String>("Server status : "+ HttpStatus.OK.name(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/addToCart/{id}")
