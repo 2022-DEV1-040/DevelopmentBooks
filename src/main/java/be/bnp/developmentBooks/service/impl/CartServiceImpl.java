@@ -20,9 +20,9 @@ public class CartServiceImpl implements CartService {
 
     private Cart cart = new Cart();
 
-    private double[] REDUCTIONS = {0,0.05,0.1,0.2,0.25};
+    private final double[] REDUCTIONS = {0,0.05,0.1,0.2,0.25};
 
-    final int BOOK_VALUE = (50);
+    private final int BOOK_VALUE = (50);
 
     private static final Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
 
