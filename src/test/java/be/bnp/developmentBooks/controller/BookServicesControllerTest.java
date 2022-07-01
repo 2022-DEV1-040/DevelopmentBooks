@@ -29,10 +29,9 @@ class BookServicesControllerTest {
 
     @Test
     void whenAddToCartNewBookThenQuantityMustBeOne() {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
-        assertEquals(1, listBook.entrySet().size());
         bookServicesController.addToCart(2L);
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         assertEquals(2, listBook.entrySet().size());
         for (Book book : listBook.keySet()) {
             int quantity = listBook.get(book);
@@ -47,14 +46,11 @@ class BookServicesControllerTest {
 
     @Test
     void whenAddToCartManyBooksThenQuantityMustCalculate() {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
-        assertEquals(1, listBook.entrySet().size());
         bookServicesController.addToCart(1L);
-        assertEquals(1, listBook.entrySet().size());
         bookServicesController.addToCart(1L);
-        assertEquals(1, listBook.entrySet().size());
         bookServicesController.addToCart(2L);
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         assertEquals(2, listBook.entrySet().size());
         for (Book book : listBook.keySet()) {
             int quantity = listBook.get(book);
@@ -68,9 +64,9 @@ class BookServicesControllerTest {
 
     @Test
     void whenAddListToCartManyBooksThenQuantityMustCalculate() {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         List<Long> listIds = Arrays.asList(1L,1L,1L,2L);
         bookServicesController.addListToCart(listIds);
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         assertEquals(2, listBook.entrySet().size());
         for (Book book : listBook.keySet()) {
             int quantity = listBook.get(book);
@@ -117,15 +113,11 @@ class BookServicesControllerTest {
 
     @Test
     void whenDecreaseFromCartManyBooksThenQuantityMustCalculate() {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
-        assertEquals(1, listBook.entrySet().size());
         bookServicesController.addToCart(1L);
-        assertEquals(1, listBook.entrySet().size());
         bookServicesController.addToCart(1L);
-        assertEquals(1, listBook.entrySet().size());
         bookServicesController.addToCart(2L);
-        assertEquals(2, listBook.entrySet().size());
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.decreaseFromCart(1L);
         assertEquals(2, listBook.entrySet().size());
         bookServicesController.decreaseFromCart(2L);
@@ -138,14 +130,11 @@ class BookServicesControllerTest {
 
     @Test
     void whenClearCartThenTheCartMustBeEmpty() {
-        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         bookServicesController.addToCart(1L);
-        assertEquals(1, listBook.entrySet().size());
         bookServicesController.addToCart(1L);
-        assertEquals(1, listBook.entrySet().size());
         bookServicesController.addToCart(1L);
-        assertEquals(1, listBook.entrySet().size());
         bookServicesController.addToCart(2L);
+        HashMap<Book, Integer> listBook = bookServicesController.getCart().getListBooks();
         assertEquals(2, listBook.entrySet().size());
         bookServicesController.clearCart();
         assertTrue(bookServicesController.getCart().getListBooks().isEmpty());
